@@ -6,7 +6,7 @@ const { ctrlWrapper } = require("../../helpers");
 
 const { schemas } = require("../../models/user");
 
-const { validateBody } = require("../../middelwares");
+const { validateBody, authenticate } = require("../../middelwares");
 
 const router = express.Router();
 
@@ -23,5 +23,9 @@ router.post(
   validateBody(schemas.loginSchema),
   ctrlWrapper(ctrl.login)
 );
+
+router.get("/current", authenticate, ctrlWrapper(ctrl.getCurrent));
+
+router.get("/logout", authenticate, ctrlWrapper(ctrl.logout));
 
 module.exports = router;
